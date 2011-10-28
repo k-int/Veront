@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-<title>CSS Mac Dock</title>
+<title>Veront - The Versioned Ontology Manager</title>
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
 <!-- script type="text/javascript" src="js/jquery.js"-->
 <script type="text/javascript" src="js/interface.js"></script>
@@ -21,14 +21,14 @@
 <body>
 <div class="dock" id="dock">
   <div class="dock-container">
-  <a class="dock-item" href="#" id="createwindow"><img src="images/home.png" alt="home" /><span>New Repository</span></a> 
-  <a class="dock-item" href="#" id="closeall"><img src="images/email.png" alt="contact" /><span>Clone Remote Repository</span></a> 
+  <a class="dock-item" href="#" id="createwindow"><img src="images/home.png" alt="home" /><span>New Ontology</span></a> 
+  <a class="dock-item" href="#" id="closeall"><img src="images/email.png" alt="contact" /><span>Clone Remote Ontology</span></a> 
 </div>
 </div>
 <script type="text/javascript">
 
 
-var windowCounter = 1;
+var windowCounter = 2;
 
   
   $(document).ready(
@@ -50,11 +50,36 @@ var windowCounter = 1;
       // $.updateWindowContent("iframewindow",'<iframe src="http://www.wikipedia.com" width="600" height="400" />');
     
       $("#createwindow").click(function(){
-        $.newWindow({title:"New window " + windowCounter++,content:"This is a new window"});
+        var pos = windowCounter % 10
+        var newx = 50 * ( pos + 1 )
+        var newy = 50 * ( pos + 1 )
+        var newid = "vocwin_"+windowCounter;
+        var new_win_name = "New vocabulary " + windowCounter++;
+        $.newWindow({title:new_win_name,
+                     // content:"This is a new window", 
+                     id:newid,
+                     posx:newx, 
+                     posy:newy});
+        $.updateWindowContentWithAjax(newid,"templates/vocab.html");
       });
     
       $("#closeall").click(function(){
         $.closeAllWindows();
+      });
+
+      $.newWindow({
+        id: "reposWin",
+        title: "Ontologies",
+        width: 200,
+        height: 200,
+        posx: 50,
+        posy: 50,
+        statusBar: true,
+        minimizeButton: true,
+        maximizeButton: false,
+        closeButton: false,
+        draggable: true,
+        resizeable: true
       });
     }
   );
